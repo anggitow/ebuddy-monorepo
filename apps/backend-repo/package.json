@@ -1,0 +1,21 @@
+{
+  "name": "backend-repo",
+  "version": "1.0.0",
+  "description": "Express API with TypeScript",
+  "main": "dist/core/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only core/app.ts",
+    "build": "tsc",
+    "start": "node dist/core/app.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.21",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
