@@ -7,7 +7,7 @@ This Turborepo includes the following packages/apps:
 ### Apps and Packages
 
 - `backend-repo`: an [ExpressJS](https://expressjs.com/) app
-- `frontend-repo`: another [NextJS](https://nextjs.org/) app
+- `frontend-repo`: a [NextJS](https://nextjs.org/) app
 
 ## Useful Links
 
