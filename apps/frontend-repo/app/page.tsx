@@ -1,8 +1,22 @@
 "use client";
 import { Box, Button, Container, Typography, Paper, Grid } from "@mui/material";
 import { Google } from "@mui/icons-material";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase/firebaseClient";
 
 export default function Login() {
+  const provider = new GoogleAuthProvider();
+
+  const loginWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      const user = auth.currentUser;
+      console.log("User signed in:", user);
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+    }
+  };
+
   return (
     <Container maxWidth="sm">
       <Grid
@@ -43,10 +57,7 @@ export default function Login() {
                   fontWeight: 500,
                 }}
                 fullWidth
-                onClick={() => {
-                  // Tambahkan handler login dengan Google di sini
-                  console.log("Login with Google");
-                }}
+                onClick={loginWithGoogle}
               >
                 Continue with Google
               </Button>
