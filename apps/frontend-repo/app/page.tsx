@@ -1,17 +1,41 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Box, Button, Container, Typography, Paper, Grid } from "@mui/material";
 import { Google } from "@mui/icons-material";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase/firebaseClient";
 
 export default function Login() {
   const provider = new GoogleAuthProvider();
+  const router = useRouter();
 
   const loginWithGoogle = async () => {
     try {
       await signInWithPopup(auth, provider);
       const user = auth.currentUser;
-      console.log("User signed in:", user);
+      const token = await user?.getIdToken();
+
+      await fetch("/api/set-cookie", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+
+      await fetch("http://localhost:3001/api/update-user-data", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: user?.uid,
+          name: user?.displayName,
+          email: user?.email,
+          photoURL: user?.photoURL,
+        }),
+      });
+
+      router.push("/home");
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
