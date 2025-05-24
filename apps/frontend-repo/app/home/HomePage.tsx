@@ -1,16 +1,6 @@
-"use client";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CircularProgress,
-  Grid,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
+'use client';
+import { Avatar, Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const HomePage = ({ token }: { token: string }) => {
   const [users, setUsers] = useState<any[]>([]);
@@ -20,16 +10,13 @@ const HomePage = ({ token }: { token: string }) => {
   const pageSize = 9;
 
   const fetchUserData = async (page: number, pageSize: number) => {
-    const response = await fetch(
-      `http://localhost:3001/api/fetch-user-data?page=${page}&pageSize=${pageSize}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
+    const response = await fetch(`http://localhost:3001/api/fetch-user-data?page=${page}&pageSize=${pageSize}`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json'
       }
-    );
+    });
 
     const data = await response.json();
     if (data.responseData.length < pageSize) {
@@ -57,13 +44,7 @@ const HomePage = ({ token }: { token: string }) => {
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={user.email}>
             <Card>
               <CardHeader
-                avatar={
-                  <Avatar
-                    src={user.photoUrl}
-                    alt={user.name}
-                    sx={{ width: 56, height: 56 }}
-                  />
-                }
+                avatar={<Avatar src={user.photoUrl} alt={user.name} sx={{ width: 56, height: 56 }} />}
                 title={<Typography fontWeight={600}>{user.name}</Typography>}
                 subheader={`Rating: ${user.totalAverageWeightRatings} • Rents: ${user.numberOfRents}`}
               />
@@ -79,18 +60,8 @@ const HomePage = ({ token }: { token: string }) => {
 
       {!isAllLoaded && (
         <Box display="flex" justifyContent="center" mt={4}>
-          <Button
-            variant="contained"
-            onClick={loadMore}
-            disabled={loading}
-            size="large"
-            sx={{ borderRadius: 2 }}
-          >
-            {loading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              `Load ${users.length == 0 ? "Users" : "More"}`
-            )}
+          <Button variant="contained" onClick={loadMore} disabled={loading} size="large" sx={{ borderRadius: 2 }}>
+            {loading ? <CircularProgress size={24} color="inherit" /> : `Load ${users.length == 0 ? 'Users' : 'More'}`}
           </Button>
         </Box>
       )}
