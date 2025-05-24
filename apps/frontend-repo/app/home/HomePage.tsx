@@ -1,8 +1,10 @@
 'use client';
-import { Avatar, Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
+import { LogoutOutlined } from '@mui/icons-material';
+import { Avatar, Box, Button, Card, CardContent, CardHeader, CircularProgress, Grid, Typography } from '@mui/material';
+import { redirect } from 'next/navigation';
 
-const HomePage = ({ token }: { token: string }) => {
+const HomePage = ({ token, name }: { token: string; name: string }) => {
   const [users, setUsers] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -33,11 +35,26 @@ const HomePage = ({ token }: { token: string }) => {
     setLoading(false);
   };
 
+  const logout = async () => {
+    await fetch('/api/remove-cookie', { method: 'PATCH' });
+    redirect('/');
+  };
+
   return (
     <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" fontWeight="bold" mb={3}>
-        Home Page
-      </Typography>
+      <Box display="flex" justifyContent="space-between">
+        <Typography variant="h4" fontWeight="bold" mb={3}>
+          Home Page
+        </Typography>
+        <Box display="flex" gap={2} alignItems="flex-start">
+          <Typography variant="subtitle1" fontWeight="bold" mb={3}>
+            {name}
+          </Typography>
+          <Button variant="outlined" color="error" endIcon={<LogoutOutlined />} onClick={logout}>
+            Logout
+          </Button>
+        </Box>
+      </Box>
 
       <Grid container spacing={3} mt={2}>
         {users.map((user) => (

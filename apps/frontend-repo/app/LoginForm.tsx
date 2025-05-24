@@ -18,7 +18,7 @@ const LoginForm = () => {
       await fetch('/api/set-cookie', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token })
+        body: JSON.stringify({ token, name: user?.displayName })
       });
 
       await fetch('http://localhost:3001/api/update-user-data', {
